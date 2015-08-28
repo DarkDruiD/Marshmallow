@@ -1,0 +1,40 @@
+package uav;
+
+message GPS {
+    required string time_stamp = 1;
+
+    required float longitude = 2;
+    required float latitude = 3;
+
+    optional float height = 4;
+}
+
+message Height {
+    required string time_stamp = 1;
+
+    required float height = 2;
+}
+
+message Gyroscope {
+    required string time_stamp = 1;
+
+    required float pitch = 2;
+    required float roll = 3;
+}
+
+message Accelerometer {
+    required string time_stamp = 1;
+
+    required float x = 2;
+    required float y = 3;
+    required float z = 4;
+}
+
+message DronePackage {
+    required string time_stamp = 1;
+
+    required GPS gps = 2;
+    required Height height = 3;
+    required Gyroscope gyro = 4;
+    required Accelerometer accel = 5;
+}
