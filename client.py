@@ -61,13 +61,8 @@ def on_connect(client, userdata, flags, rc):
     print "Connected!"
 
 
-def on_message(client, userdata, msg):
-    print "Message!"
-
-
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
-mqttc.on_message = on_message
 
 mqttc.connect("127.0.0.1", 1883, 60)
 
