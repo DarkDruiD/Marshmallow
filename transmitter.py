@@ -1,12 +1,12 @@
 import time
 import random
-import uav_bd2
+import uav_pb2
 
 import paho.mqtt.client as mqtt
 
 
 def read_gps():
-    gps = uav_bd2.GPS()
+    gps = uav_pb2.GPS()
 
     gps.time_stamp = time.strftime("%H:%M:%S")
     gps.longitude = random.randint(0, 360)
@@ -16,16 +16,16 @@ def read_gps():
 
 
 def read_height():
-    height = uav_bd2.Height()
+    height = uav_pb2.Height()
 
     height.time_stamp = time.strftime("%H:%M:%S")
-    height = random.randint(0, 100)
+    height.height = random.randint(0, 100)
 
     return height
 
 
 def read_gyro():
-    gyro = uav_bd2.Gyro()
+    gyro = uav_pb2.Gyroscope()
 
     gyro.time_stamp = time.strftime("%H:%M:%S")
     gyro.pitch = random.randint(0, 100)
@@ -35,7 +35,7 @@ def read_gyro():
 
 
 def read_accel():
-    accel = uav_bd2.Accelerometer()
+    accel = uav_pb2.Accelerometer()
 
     accel.time_stamp = time.strftime("%H:%M:%S")
     accel.x = random.randint(0, 100)
@@ -46,7 +46,7 @@ def read_accel():
 
 
 def build_drone_pkg():
-    drn_pkg = uav_bd2.DronePackage()
+    drn_pkg = uav_pb2.DronePackage()
 
     drn_pkg.time_stamp = time.strftime("%H:%M:%S")
     drn_pkg.gps.CopyFrom(read_gps())
@@ -69,9 +69,14 @@ mqttc.connect("127.0.0.1", 1883, 60)
 mqttc.loop_start()
 
 while True:
-    drn_pkg = build_dron_package()
+    drn_pkg = build_drone_pkg().SerializeToString()
 
-    mqttc.publish("uav/data",
-                  buil_dron_pkg().SerializeToStrin())
+    body = drn_pkg.encode('base64')
+    #drn_pkg = bytearray(drn_pkg, 'ascii')
+    #body = bytes(drn_pkg)
+
+    mqttc.publish("uav/data", body)
+
+    print "Sent data!"
 
     time.sleep(5)
