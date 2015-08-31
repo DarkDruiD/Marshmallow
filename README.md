@@ -43,7 +43,7 @@ $ python receiver.py
     - Height sensor
     - Accelerometers
 
-* Is important to note that the most challenging part was to avoid the UTF-8 requirements in the MQTT client libraries, this is avoided by encoding in base64before transmitting the information through MQTT, as shown here:
+* Is important to note that the most challenging part was to avoid the UTF-8 requirements in the MQTT client libraries, this is avoided by encoding in base64 before transmitting the information through MQTT, as shown here:
 
     ```py
     body = drn_pkg.encode('base64')
